@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseQuest implements Quest {
-    public static final Logger LOGGER = LoggerFactory.getLogger(BaseQuest.class);
+    public static final Logger logger = LoggerFactory.getLogger(BaseQuest.class);
 
     protected Map<Integer, QuestItem> questMap = new HashMap<>();
 

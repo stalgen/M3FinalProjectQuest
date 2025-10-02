@@ -41,6 +41,7 @@ public class UfoQuest extends BaseQuest{
         String result = processUserAnswer(item, userAnswer);
 
         if (result != null) {
+            logger.info("Quest result: {}", result);
             session.setAttribute("result", result);
             request.getRequestDispatcher(PagePaths.RESULT_PAGE).forward(request, response);
         } else {
@@ -52,6 +53,7 @@ public class UfoQuest extends BaseQuest{
             }
             session.setAttribute("currentQuestion", currentQuestion);
             QuestItem nextItem = getQuestItem(currentQuestion);
+            logger.info("Moving to next question: {}", currentQuestion);
             request.setAttribute("questItem", nextItem);
             request.getRequestDispatcher(PagePaths.QUEST_PAGE).forward(request, response);
         }
