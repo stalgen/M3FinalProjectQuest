@@ -4,6 +4,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.example.m3finalprojectquest.constants.AnswerOptions;
 import org.example.m3finalprojectquest.model.DialogOption;
 import org.example.m3finalprojectquest.model.QuestItem;
 import org.slf4j.LoggerFactory;
@@ -14,8 +16,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseQuest implements  Quest {
-    public static final Logger LOGGER = LoggerFactory.getLogger(BaseQuest.class);
+public abstract class BaseQuest implements Quest {
+    public static final Logger logger = LoggerFactory.getLogger(BaseQuest.class);
 
     protected Map<Integer, QuestItem> questMap = new HashMap<>();
 
@@ -37,12 +39,10 @@ public abstract class BaseQuest implements  Quest {
     public String processUserAnswer(QuestItem item, String userAnswer) {
         for (DialogOption option : item.getDialogOptions()) {
             if (option.getOptionText().equalsIgnoreCase(userAnswer)) {
-                if (option.getNextQuestion() == -1) {
-                    if (item.getPositivResult() != null) {
-                        return item.getPositivResult();
-                    } else if (item.getNegativeResult() != null) {
-                        return item.getNegativeResult();
-                    }
+                if (AnswerOptions.YES.equalsIgnoreCase(userAnswer)) {
+                    return item.getPositivResult();
+                } else if (AnswerOptions.NO.equalsIgnoreCase(userAnswer)) {
+                    return item.getNegativeResult();
                 }
             }
         }

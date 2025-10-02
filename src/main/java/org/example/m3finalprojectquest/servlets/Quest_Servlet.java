@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.example.m3finalprojectquest.constants.PagePaths;
+import org.example.m3finalprojectquest.constants.QuestTypes;
 import org.example.m3finalprojectquest.model.QuestItem;
 import org.example.m3finalprojectquest.strategy.Quest;
 import org.example.m3finalprojectquest.strategy.UfoQuest;
@@ -14,6 +17,8 @@ import java.io.IOException;
 
 @WebServlet(name = "questServlet", value = "/quest-servlet")
 public class Quest_Servlet extends HttpServlet {
+    private static final int FIRST_QUESTION = 1;
+    private static final String QUEST_PAGE = "/quest.jsp";
     private Quest quest;
 
     public void setQuestStrategy(Quest quest) {
@@ -25,12 +30,12 @@ public class Quest_Servlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("currentQuestion", 1);
+        session.setAttribute("currentQuestion", FIRST_QUESTION);
         session.setAttribute("result", null);
 
         String questType = request.getParameter("type");
 
-        if ("ufo".equals(questType)) {
+        if (QuestTypes.UFO.equals(questType)) {
             setQuestStrategy(new UfoQuest());
         }
 
@@ -38,7 +43,7 @@ public class Quest_Servlet extends HttpServlet {
 
         QuestItem item = quest.getQuestItem(1);
         request.setAttribute("questItem", item);
-        request.getRequestDispatcher("/quest.jsp").forward(request, response);
+        request.getRequestDispatcher(PagePaths.QUEST_PAGE).forward(request, response);
     }
 
     @Override
